@@ -158,15 +158,15 @@ function init() {
 
   // Generate an Irwin–Hall distribution of 10 random variables.
   //var values = d3.range(1000).map(d3.random.irwinHall(10));
-
+/*
   var values = [ 94, 119, 97, 111, 93, 107, 112, 98, 105,109, 99, 96, 100, 98, 119, 95, 89, 102, 98, 89, 93 ]
 
   var chart = d3.select("#hurricane-chart").append("svg")
       .attr("width", 800)
-      .attr("height", 200)
+      .attr("height", 100)
   
 
-  var max = 119, w = 800 / values.length, h = 200;
+  var max = 119, w = 800 / values.length, h = 100;
   $.each( values, function(i, val) {
     var left = w * i;
     chart.append("rect")
@@ -175,5 +175,5 @@ function init() {
       .attr('width', w - 2)
       .attr("height", val );
   });
-  
+ */ 
 }
