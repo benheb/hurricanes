@@ -1,7 +1,12 @@
 function init() {
+
+  $('#spin').on('click', function() {
+    rotate();
+  });
+
   var width = document.width,
       height = document.height,
-      velocity = [.002, -.002],
+      velocity = [.006, -.002],
       t0 = Date.now(),
       spin = false,
       projection,
@@ -9,7 +14,7 @@ function init() {
       path;
 
     projection = d3.geo.orthographic()
-        .scale(330)
+        .scale(360)
         .translate([width / 2, height / 2])
         .clipAngle(90)
         .rotate([51.32930515638208, -0.002])
@@ -44,7 +49,7 @@ function init() {
         .attr("class", "land")
         .attr("d", path);
 
-    getHurricanes("1991");
+    getHurricanes("1992");
     $('#year').html( "1991" );
     
   });
