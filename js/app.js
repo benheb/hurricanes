@@ -4,8 +4,8 @@ function init() {
     rotate();
   });
 
-  var width = document.width,
-      height = document.height,
+  var width = $(document).width(),
+      height = $(document).height(),
       velocity = [.006, -.002],
       t0 = Date.now(),
       spin = false,
@@ -17,7 +17,7 @@ function init() {
         .scale(360)
         .translate([width / 2, height / 2])
         .clipAngle(90)
-        .rotate([51.32930515638208, -0.002])
+        .rotate([58.32930515638208, -10.002])
         .precision(.1);
 
     svg = d3.select("body").append("svg")
@@ -44,6 +44,34 @@ function init() {
   // load and display the World
   d3.json("data/world-110m.json", function(error, world) {
     //console.log('world', world)
+      var filter = svg.append("defs")
+        .append("filter")
+        .attr("id", "drop-shadow")
+        .attr("height", "130%");
+      filter.append("feGaussianBlur")
+      .attr("in", "SourceAlpha")
+      .attr("stdDeviation", 2)
+      .attr("result", "blur");
+
+       filter.append("feOffset")
+          .attr("in", "blur")
+          .attr("dx", 2)
+          .attr("dy", 2)
+          .attr("result", "offsetBlur");
+
+      var feMerge = filter.append("feMerge");
+
+      feMerge.append("feMergeNode")
+          .attr("in", "offsetBlur")
+      feMerge.append("feMergeNode")
+          .attr("in", "SourceGraphic");
+
+      svg.insert("path", ".graticule")
+        .datum(topojson.feature(world, world.objects.land))
+        .attr("class", "land")
+        .attr("d", path)
+        .style("filter", "url(#drop-shadow)");
+
       svg.insert("path")
         .datum(topojson.feature(world, world.objects.countries))
         .attr("class", "land")
@@ -86,7 +114,8 @@ function init() {
       .enter().append("path")
         .attr("class", "hurricane")
         .attr('opacity', 0)
-        .attr("stroke", function(d) { 
+        .attr("stroke", function(d) {
+          console.log('what', d);
           /*
           if ( name != d.properties.Name ) {
             count++;
